@@ -1,0 +1,24 @@
+version: "3"
+
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: irix1992
+      MYSQL_USER: root
+      MYSQL_PASSWORD: irix1992
+      MYSQL_DATABASE: realm
+    ports:
+    - 3306:3306
+
+  realm:
+    image: realm
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      JVM_ARGS: -Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
+    ports:
+    - 8081:50490
+    - 5005:5005
+    depends_on:
+    - mariadb
