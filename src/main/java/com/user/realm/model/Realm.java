@@ -32,6 +32,13 @@ public class Realm {
         this.key = key;
     }
 
+    public Realm(String name, String description) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.key = key;
+    }
+
     public Integer getId() {
         return id;
     }

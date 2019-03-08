@@ -30,4 +30,9 @@ public class RealmError {
     public void setCode(Code code) {
         this.code = code;
     }
+
+    @Override
+    public String toString() {
+        return "RealmError{" + "code=" + code + '}';
+    }
 }

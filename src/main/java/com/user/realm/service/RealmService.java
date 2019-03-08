@@ -16,6 +16,7 @@ import java.util.Optional;
 public class RealmService {
 
     ObjectMapper objectMapper = new ObjectMapper();
+
     @Autowired
     private RealmRepository realmRepository;
 
@@ -28,10 +29,8 @@ public class RealmService {
     public Optional<?> getRealmRealmById(Integer id) {
 
         Optional<Realm> found = realmRepository.findById(Long.valueOf(id));
-        if (found.isPresent()) {
-            return Optional.of(found);
-        }
-        return Optional.of(new RealmError(RealmError.Code.REALM_NOT_FOUND));
+        return found.<Optional<?>>map(Optional::of).orElseGet(() ->
+                Optional.of(new RealmError(RealmError.Code.REALM_NOT_FOUND)));
     }
 
     public Optional<?> saveOrUpdateRealm(String input) {
@@ -43,11 +42,11 @@ public class RealmService {
             return Optional.of(new RealmError(RealmError.Code.INVALID_ARGUMENT));
         }
 
-        if (realm.getName() == null) {
+        if (realm.getName() == null || realm.getName().isEmpty()) {
             return Optional.of(new RealmError(RealmError.Code.INVALID_REALM_NAME));
         }
 
-        if (realm.getKey() != null) {
+        if (!realm.getKey().isEmpty()) {
             return Optional.of(new RealmError(RealmError.Code.KEY_PROVIDED));
         }
 
@@ -64,8 +63,8 @@ public class RealmService {
         return Optional.of(realmRepository.save(realm));
     }
 
-    public void deleteRealm(Long id) {
-        realmRepository.deleteById(id);
+    public void deleteRealm(Integer id) {
+        realmRepository.deleteById(Long.valueOf(id));
     }
 
 }

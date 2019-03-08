@@ -23,7 +23,7 @@ public class RealmController {
     RealmService realmService;
 
     @GetMapping
-    public List<Realm> list() {
+    public List<Realm> listRealms() {
         return realmService.getAllRealms();
     }
 
@@ -34,7 +34,7 @@ public class RealmController {
         if (optional instanceof RealmError) {
             return new ResponseEntity<>(optional, HttpStatus.CONFLICT);
         } else {
-            return new ResponseEntity<>(optional, HttpStatus.OK);
+            return new ResponseEntity<>(optional, HttpStatus.CREATED);
         }
     }
 
@@ -43,15 +43,16 @@ public class RealmController {
 
         Object optional = realmService.getRealmRealmById(id).get();
         if (optional instanceof RealmError) {
-            return new ResponseEntity<>(optional, HttpStatus.CONFLICT);
+            return new ResponseEntity<>(optional, HttpStatus.NOT_FOUND);
         } else {
             return new ResponseEntity<>(optional, HttpStatus.OK);
         }
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") Long id) {
+    public ResponseEntity delete(@PathVariable("id") Integer id) {
         realmService.deleteRealm(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
