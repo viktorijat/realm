@@ -17,18 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("api/v1/user/realm")
-public class RealmController {
+class RealmController {
 
     @Autowired
     RealmService realmService;
 
     @GetMapping
-    public List<Realm> listRealms() {
+    List<Realm> listRealms() {
         return realmService.getAllRealms();
     }
 
     @PostMapping
-    public ResponseEntity create(HttpEntity<String> httpEntity) {
+    ResponseEntity create(HttpEntity<String> httpEntity) {
 
         Object optional = realmService.saveOrUpdateRealm(httpEntity.getBody()).get();
         if (optional instanceof RealmError) {
@@ -39,7 +39,7 @@ public class RealmController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity get(@PathVariable("id") Integer id) {
+    ResponseEntity get(@PathVariable("id") Integer id) {
 
         Object optional = realmService.getRealmRealmById(id).get();
         if (optional instanceof RealmError) {
@@ -50,7 +50,7 @@ public class RealmController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity delete(@PathVariable("id") Integer id) {
+    ResponseEntity delete(@PathVariable("id") Long id) {
         realmService.deleteRealm(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

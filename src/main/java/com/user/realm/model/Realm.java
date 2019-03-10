@@ -1,20 +1,21 @@
 package com.user.realm.model;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import org.hibernate.validator.constraints.Length;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "realms")
 public class Realm {
 
     @Id
     @GeneratedValue
-    private Integer id;
+    @JacksonXmlProperty(isAttribute = true)
+    private Long id;
 
     @Column(unique = true)
+    @JacksonXmlProperty(isAttribute = true)
     private String name;
 
     @Length(max = 255)
@@ -23,9 +24,10 @@ public class Realm {
     @Column(length = 40)
     private String key;
 
-    public Realm() {}
+    public Realm() {
+    }
 
-    public Realm(Integer id, String name, String description, String key) {
+    public Realm(Long id, String name, String description, String key) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -39,11 +41,11 @@ public class Realm {
         this.key = key;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -69,5 +71,15 @@ public class Realm {
 
     public void setKey(String key) {
         this.key = key;
+    }
+
+    @Override
+    public String toString() {
+        return "Realm{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", key='" + key + '\'' +
+                '}';
     }
 }

@@ -42,12 +42,19 @@ public class RealmService {
             return Optional.of(new RealmError(RealmError.Code.INVALID_ARGUMENT));
         }
 
+        return saveOrUpdateRealm(realm);
+    }
+
+    public Optional<?> saveOrUpdateRealm(Realm realm) {
+
         if (realm.getName() == null || realm.getName().isEmpty()) {
             return Optional.of(new RealmError(RealmError.Code.INVALID_REALM_NAME));
         }
 
-        if (!realm.getKey().isEmpty()) {
-            return Optional.of(new RealmError(RealmError.Code.KEY_PROVIDED));
+        if (realm.getKey() != null) {
+            if (!realm.getKey().isEmpty()) {
+                return Optional.of(new RealmError(RealmError.Code.KEY_PROVIDED));
+            }
         }
 
         if (realm.getDescription() != null && realm.getDescription().length() > 255) {
@@ -63,8 +70,7 @@ public class RealmService {
         return Optional.of(realmRepository.save(realm));
     }
 
-    public void deleteRealm(Integer id) {
-        realmRepository.deleteById(Long.valueOf(id));
+    public void deleteRealm(Long id) {
+        realmRepository.deleteById(id);
     }
-
 }

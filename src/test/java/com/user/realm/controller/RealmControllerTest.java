@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -41,7 +42,7 @@ public class RealmControllerTest {
         HttpEntity<String> httpEntity = new HttpEntity<>("");
 
         Optional optional = Optional.of(new RealmError(RealmError.Code.INVALID_REALM_NAME));
-        when(realmService.saveOrUpdateRealm(any())).thenReturn(optional);
+        when(realmService.saveOrUpdateRealm(anyString())).thenReturn(optional);
 
         ResponseEntity responseEntity = realmController.create(httpEntity);
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.CONFLICT));
@@ -55,7 +56,7 @@ public class RealmControllerTest {
         HttpEntity<String> httpEntity = new HttpEntity<>(realm.toString());
 
         Optional optional = Optional.of(realm);
-        when(realmService.saveOrUpdateRealm(any())).thenReturn(optional);
+        when(realmService.saveOrUpdateRealm(anyString())).thenReturn(optional);
 
         ResponseEntity responseEntity = realmController.create(httpEntity);
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.CREATED));
@@ -88,7 +89,7 @@ public class RealmControllerTest {
     @Test
     public void shouldDeleteRealm() {
 
-        ResponseEntity responseEntity = realmController.delete(1);
+        ResponseEntity responseEntity = realmController.delete(1L);
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.NO_CONTENT));
     }
 

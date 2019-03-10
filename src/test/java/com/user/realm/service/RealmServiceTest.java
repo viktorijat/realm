@@ -30,7 +30,7 @@ public class RealmServiceTest {
     private static final String DESCRIPTION = "descriptions";
     private static final String NAME = "abc";
     private static final String KEY = "1234";
-    private static final int ID = 1;
+    private static final long ID = 1L;
 
     @Mock
     RealmRepository realmRepository;
